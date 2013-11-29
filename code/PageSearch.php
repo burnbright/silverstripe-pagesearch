@@ -8,7 +8,6 @@ class PageSearch extends Object{
 	protected $fields;
 	protected $request, $query;
 	protected $pagetype = "Page";
-	protected $mode = ' IN BOOLEAN MODE'; //TODO allow different modes
 
 	function __construct(SS_HTTPRequest $request){
 		$this->request = $request;
@@ -39,19 +38,20 @@ class PageSearch extends Object{
 
 	function results(){
 		$keyword = Convert::raw2sql($this->query);
+		$partialkeywords = implode("* ",explode(" ",$keyword))."*";
 		$keywordHTML = htmlentities($keyword, ENT_NOQUOTES, 'UTF-8');
 		$fields = implode(",",$this->fields ? $this->fields : $this->getSearchableFields());
-		$siteTreeMatch = "MATCH( $fields ) AGAINST ('$keyword'$this->mode) 
-						+ MATCH( $fields ) AGAINST ('$keywordHTML'$this->mode)";
+		$siteTreeMatch = "MATCH($fields) AGAINST ('$partialkeywords' IN BOOLEAN MODE)
+						+ MATCH($fields) AGAINST ('$keywordHTML' IN BOOLEAN MODE)";
 		$pagetype = $this->getPageType();
 		$results = DataList::create($pagetype)
-				->filter("ShowInSearch",1)
-				->where($siteTreeMatch);
+				->where($siteTreeMatch)
+				->filter("ShowInSearch",1);
+				
 		$results->sort(array(
 			'Relevance' => 'DESC',
 			'Title' => 'ASC'
 		));
-
 		$this->getSearchableFields();
 
 		return $results;
