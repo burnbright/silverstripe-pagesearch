@@ -50,3 +50,5 @@ In your `Page_Controller` class:
 	}
 
 ```
+
+Because a `DataList` is returned, you can wrap it in a `PaginatedList` to add pagination.
