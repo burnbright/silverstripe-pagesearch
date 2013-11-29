@@ -30,7 +30,6 @@ In your `Page_Controller` class:
 				FormAction::create('results', 'Go')
 			)
 		);
-		$form->disableSecurityToken();
 		$form->setFormMethod('GET');
 		$form->setTemplate('SearchForm');
 
