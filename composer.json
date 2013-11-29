@@ -1,0 +1,20 @@
+{
+    "name": "burnbright/silverstripe-pagesearch",
+    "description": "Search pages accross a SilverStripe site.",
+    "license": "BSD-2",
+    "type": "silverstripe-module",
+    "keywords": ["silverstripe", "search"],
+    "authors": [
+        {
+            "name": "Jeremy Shipman",
+            "email": "jeremy@burnbright.net"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "silverstripe/framework": "~3.1"
+    },
+    "extra": {
+        "installer-name": "pagesearch"
+    }
+}
